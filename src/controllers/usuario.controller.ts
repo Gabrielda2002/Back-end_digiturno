@@ -9,28 +9,23 @@ const usuarioRepository = AppDataSource.getRepository(Usuario);
 const sedeRepository = AppDataSource.getRepository(Sede);
 
 // Obtener todos los usuarios
-export const getAllUsuarios = asyncHandler(async (req: Request, res: Response) => {
-  // Si el usuario es admin global, puede ver todos los usuarios
-  // Si es supervisor, solo ve usuarios de su sede
-  const isAdmin = req.usuario.rol === 'admin';
-  const usuarioLogueado = req.usuario;
-  
-  let usuarios;
-  
-  if (isAdmin) {
-    usuarios = await usuarioRepository.find({
+export const getAllUsuarios = asyncHandler(async (req: Request, res: Response) => {  
+    const usuarios = await usuarioRepository.find({
       relations: ['sede'],
       order: { nombre: 'ASC' }
     });
-  } else {
-    usuarios = await usuarioRepository.find({
-      where: { sede_id: usuarioLogueado.sede_id },
-      relations: ['sede'],
-      order: { nombre: 'ASC' }
-    });
-  }
+
+    const dataFormatted = usuarios.map(u => ({
+      id: u.id,
+      nombre: u.nombre,
+      email: u.email,
+      rol: u.rol,
+      sede_id: u.sede_id,
+      sede_nombre: u.sede ? u.sede.nombre : null,
+      activo: u.activo
+    }))
   
-  res.json(usuarios);
+  return res.json(dataFormatted);
 });
 
 // Obtener un usuario por ID
