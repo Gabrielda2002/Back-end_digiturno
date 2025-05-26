@@ -7,6 +7,12 @@ import { asyncHandler } from '../middlewares/common.middleware';
 const moduloRepository = AppDataSource.getRepository(Modulo);
 const sedeRepository = AppDataSource.getRepository(Sede);
 
+
+export const getAllModulos = asyncHandler(async (req: Request, res: Response) => {
+  const modulos = await moduloRepository.find();
+  res.json(modulos);
+})
+
 // Obtener todos los módulos de una sede
 export const getModulosBySede = asyncHandler(async (req: Request, res: Response) => {
   const { sedeId } = req.params;

@@ -4,7 +4,8 @@ import {
   getModuloById, 
   createModulo, 
   updateModulo, 
-  deleteModulo 
+  deleteModulo, 
+  getAllModulos
 } from '../controllers/modulo.controller';
 import { auth, checkRole } from '../middlewares/auth.middleware';
 import { validateSedeId } from '../middlewares/common.middleware';
@@ -19,5 +20,7 @@ router.get('/:id', getModuloById);
 router.post('/', createModulo);
 router.put('/:id', updateModulo);
 router.delete('/:id', deleteModulo);
+
+router.get('/', getAllModulos);
 
 export default router;
