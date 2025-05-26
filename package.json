@@ -7,7 +7,9 @@
     "dev": "nodemon --exec ts-node src/server.ts",
     "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
-    "seed": "ts-node src/utils/seedDatabase.ts"
+    "seed": "ts-node src/utils/seedDatabase.ts",
+    "m:run": "npm run typeorm migration:run -- -d src/config/database.ts",
+    "m:revert": "npm run typeorm migration:revert"
   },
   "keywords": [],
   "author": "",

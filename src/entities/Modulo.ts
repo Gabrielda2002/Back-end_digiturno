@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Sede } from './Sede';
+import { Usuario } from './Usuario'; // Agregar import
 
 @Entity('modulos')
 export class Modulo  {
@@ -27,4 +28,11 @@ export class Modulo  {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column({ type: 'uuid', nullable: true })
+  operador_id: string;
+
+  @ManyToOne(() => Usuario, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'operador_id' })
+  operador: Usuario;
 }
