@@ -48,10 +48,12 @@ export const getModuloById = asyncHandler(async (req: Request, res: Response) =>
 
 // Crear un nuevo módulo
 export const createModulo = asyncHandler(async (req: Request, res: Response) => {
-  const { sede_id, nombre, numero } = req.body;
+  const { sede_id, nombre, numero, operador_id  } = req.body;
+  console.log(req.body)
 
   // Verificar que existe la sede
   const sede = await sedeRepository.findOne({ where: { id: sede_id } });
+
   if (!sede) {
     return res.status(404).json({ message: 'Sede no encontrada' });
   }
@@ -71,7 +73,8 @@ export const createModulo = asyncHandler(async (req: Request, res: Response) => 
     sede_id,
     nombre,
     numero,
-    activo: true
+    activo: true,
+    operador_id: operador_id
   });
 
   await moduloRepository.save(modulo);
@@ -81,7 +84,7 @@ export const createModulo = asyncHandler(async (req: Request, res: Response) => 
 // Actualizar un módulo existente
 export const updateModulo = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { nombre, numero, activo } = req.body;
+  const { nombre, numero, activo, sede_id, operador_id } = req.body;
 
   let modulo = await moduloRepository.findOne({ where: { id } });
   if (!modulo) {
@@ -105,6 +108,8 @@ export const updateModulo = asyncHandler(async (req: Request, res: Response) => 
   modulo.nombre = nombre || modulo.nombre;
   modulo.numero = numero !== undefined ? numero : modulo.numero;
   modulo.activo = activo !== undefined ? activo : modulo.activo;
+  modulo.sede_id = sede_id || modulo.sede_id;
+  modulo.operador_id = operador_id || modulo.operador_id;
 
   await moduloRepository.save(modulo);
   res.json(modulo);
