@@ -7,7 +7,14 @@ import { asyncHandler } from '../middlewares/common.middleware';
 const motivoRepository = AppDataSource.getRepository(MotivoVisita);
 const sedeRepository = AppDataSource.getRepository(Sede);
 
-// Obtener todos los motivos de visita de una sede
+export const getAllMotivos = asyncHandler(async (req: Request, res: Response) => {
+  const motivos = await motivoRepository.find({
+    order: { nombre: 'ASC' }
+  });
+
+  res.json(motivos);
+}) 
+
 export const getMotivosBySede = asyncHandler(async (req: Request, res: Response) => {
   const { sedeId } = req.params;
 

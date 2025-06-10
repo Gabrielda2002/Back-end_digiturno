@@ -9,13 +9,12 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5433'),
-  username: process.env.DB_USERNAME || 'postgres',
-  password: process.env.DB_PASSWORD || 'Hachiko2002',
-  database: process.env.DB_DATABASE || 'digiturno',
+  username: process.env.DB_USERNAME || '',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_DATABASE || '',
   synchronize: process.env.NODE_ENV !== 'production', // Solo sincronizar en desarrollo
   logging: process.env.NODE_ENV !== 'production',
-    entities: [__dirname + "/../entities/*{.ts,.js}"],
+  entities: [__dirname + "/../entities/*{.ts,.js}"],
   subscribers: [],
-  migrations: [__dirname, '/../migrations/*.{js,ts}'],
-  
+  migrations: [__dirname + '/../migrations/*{.js,.ts}'],  
 });
